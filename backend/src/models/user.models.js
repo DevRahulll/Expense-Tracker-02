@@ -26,6 +26,9 @@ const UserSchema = new mongoose.Schema(
             enum: ["INR", "DOLLAR"],
             default: "INR",
         },
+        refreshToken:{
+            type:String,
+        }
     },
     { timestamps: true },
 );
@@ -35,5 +38,9 @@ UserSchema.pre("save", async function () {
 
     this.password = await bcrypt.hash(this.password, 12);
 });
+
+UserSchema.methods.comparePassword = function (clientPassword) {
+    return bcrypt.compare(clientPassword, this.password);
+};
 
 export default mongoose.model("User", UserSchema);
