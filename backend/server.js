@@ -8,7 +8,7 @@ const PORT = envInstance.PORT;
 
 async function init() {
     try {
-        await connToDb(envInstance.MONGO_URI);
+        await connToDb(process.env.MONGO_URI);
 
         app.listen(PORT, () => {
             console.log(

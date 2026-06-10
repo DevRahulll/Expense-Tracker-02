@@ -2,22 +2,21 @@ import ApiError from "../utils/api-error.js";
 import { verifyAccessToken } from "../utils/jwt.utils.js";
 import userModels from "../models/user.models.js";
 
-
-export const authUser=async(req,res,next)=>{
+export const authUser = async (req, res, next) => {
     try {
-        const {accessToken}=req.cookies;
+        const { accessToken } = req.cookies;
+        if (!accessToken) ApiError.unauthorized("Not allowed");
 
-    if(!accessToken) ApiError.unauthorized();
+        const decoded = await verifyAccessToken(accessToken);
+        if (!decoded) ApiError.unauthorized("Unauthorized ! Login again");
 
-    const decoded=verifyAccessToken(accessToken);
-    if(!decoded) ApiError.unauthorized("Unauthorized ! Login again");
+        const user = await userModels.findById(decoded.id);
+        if (!user) throw ApiError.unauthorized("User no Exists");
 
-    const user=userModels.findById(decoded.id)
-    console.log(user);
+        req.user = user;
 
-    req.user=user;
-    next(); 
+        next();
     } catch (error) {
         ApiError.unauthorized();
     }
-}
+};
