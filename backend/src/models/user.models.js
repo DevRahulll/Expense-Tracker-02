@@ -7,13 +7,15 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: [true, "fullName is required"],
             minlength: 2,
-            maxlength: 20,
+            maxlength: 50,
         },
         email: {
             type: String,
             unique: true,
             trim: true,
             required: [true, "Email is required"],
+            match: [/^\S+@\S+\.\S+$/, "Please provide a valid email"],
+            index: true,
         },
         password: {
             type: String,
@@ -23,17 +25,17 @@ const UserSchema = new mongoose.Schema(
         },
         currency: {
             type: String,
-            enum: ["INR", "DOLLAR"],
+            enum: ["INR", "USD"],
             default: "INR",
         },
-        refreshToken:{
-            type:String,
-        }
+        refreshToken: {
+            type: String,
+        },
     },
     { timestamps: true },
 );
 
-UserSchema.pre("save", async function () {
+UserSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return;
 
     this.password = await bcrypt.hash(this.password, 12);

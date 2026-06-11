@@ -98,7 +98,7 @@ export const logout = async (req, res) => {
     try {
         res.clearCookie("accessToken");
 
-        ApiResponse.noContent(res, "Logout successful");
+        ApiResponse.ok(res, "Logout successful");
     } catch (error) {
         ApiError.internalError();
     }

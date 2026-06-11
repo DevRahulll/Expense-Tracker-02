@@ -2,8 +2,10 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
-import userRouter from "./routes/user.routes.js";
-import transactionRouter from "./routes/transaction.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import transactionRoutes from "./routes/transaction.routes.js";
+import statsRoutes from "./routes/stats.routes.js";
+import budgetRoutes from "./routes/budget.routes.js";
 
 const app = express();
 
@@ -16,8 +18,12 @@ app.get("/health", (_req, res) => {
     res.send("OK");
 });
 
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1/users", userRoutes);
 
-app.use("/api/v1/transactions", transactionRouter);
+app.use("/api/v1/transactions", transactionRoutes);
+
+app.use("/api/v1/stats", statsRoutes);
+
+app.use("/api/v1/budgets", budgetRoutes);
 
 export default app;

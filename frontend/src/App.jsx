@@ -1,35 +1,49 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+    return (
+        <div>
+            <button className="btn btn-secondary">Start</button>
+            <div className="">
+                <div className="avatar-group -space-x-6">
+                    <div className="avatar">
+                        <div className="w-12">
+                            <img src="https://img.daisyui.com/images/profile/demo/batperson@192.webp" />
+                        </div>
+                    </div>
+                    <div className="avatar">
+                        <div className="w-12">
+                            <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                        </div>
+                    </div>
+                    <div className="avatar">
+                        <div className="w-12">
+                            <img src="https://img.daisyui.com/images/profile/demo/averagebulk@192.webp" />
+                        </div>
+                    </div>
+                    <div className="avatar">
+                        <div className="w-12">
+                            <img src="https://img.daisyui.com/images/profile/demo/wonderperson@192.webp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="">
+                <input
+                    type="checkbox"
+                    value="synthwave"
+                    className="toggle theme-controller"
+                />
+                <div className="navbar bg-base-100 shadow-sm">
+                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
