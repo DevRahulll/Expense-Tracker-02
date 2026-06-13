@@ -4,6 +4,7 @@ import userModels from "../models/user.models.js";
 import {
     generateAccessToken,
     generateRefreshToken,
+    verifyRefreshToken,
 } from "../utils/jwt.utils.js";
 
 export const register = async (req, res) => {
@@ -60,6 +61,7 @@ export const login = async (req, res) => {
             secure: false,
             sameSite: "strict",
         });
+
         res.cookie("refreshToken", refreshToken, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
@@ -87,8 +89,28 @@ export const getProfile = async (req, res) => {
     }
 };
 
-export const getRefreshToken = async (req, res) => {
+export const getAccessToken = async (req, res) => {
     try {
+        const { refreshToken } = req.cookies;
+        if (!refreshToken)
+            return ApiError.unauthorized("Unauthorized Request! login again");
+
+        const decoded = verifyRefreshToken(refreshToken);
+        if (!decoded) throw ApiError.unauthorized("Not allowed!");
+
+        const user = await userModels.findById(decoded.id);
+        if (!user) throw ApiError.unauthorized("Unauthorized request");
+
+        const accessToken = await generateAccessToken({ id: user._id });
+
+        res.cookie("accessToken", accessToken, {
+            maxAge: 15 * 60 * 1000,
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict",
+        });
+
+        return ApiResponse.noContent(res, "Generated Tokens");
     } catch (error) {
         ApiError.internalError();
     }

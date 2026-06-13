@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    getAccessToken,
     getProfile,
     login,
     logout,
@@ -14,6 +15,8 @@ userRouter.post("/register", register);
 userRouter.post("/login", login);
 
 userRouter.get("/profile", authUser, getProfile);
+
+userRouter.get("/get-accessToken", getAccessToken);
 
 userRouter.post("/logout", authUser, logout);
 
